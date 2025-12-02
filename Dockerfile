@@ -1,14 +1,12 @@
 FROM metabase/metabase:v0.50.15
 
-# Timezone
+# Set timezone
 ENV JAVA_TIMEZONE=Asia/Kuala_Lumpur
 
-# Railway ALWAYS provides PORT at runtime.
-# So we enforce Metabase to use it:
-ENV MB_JETTY_PORT=${PORT}
+# Railway does NOT provide PORT at build time.
+# So we DO NOT set MB_JETTY_PORT here.
+# We set it dynamically in CMD.
 
-# EXPOSE will not break even if PORT is not known during build
-EXPOSE 0
+EXPOSE 3000
 
-# Start Metabase with Java
-ENTRYPOINT ["java", "-jar", "/app/metabase.jar"]
+CMD sh -c "java -DMB_JETTY_PORT=$PORT -jar /app/metabase.jar"
