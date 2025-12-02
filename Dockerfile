@@ -1,8 +1,12 @@
 FROM metabase/metabase:v0.50.15
 
-ENV MB_JETTY_PORT=${PORT}
+# Railway / Render will pass PORT during runtime, not build time
+# So we DO NOT set MB_JETTY_PORT here.
+
 ENV JAVA_TIMEZONE=Asia/Kuala_Lumpur
 
-EXPOSE 3000
+# Don’t hardcode 3000
+EXPOSE ${PORT}
 
-CMD ["java", "-jar", "/app/metabase.jar"]
+# Pass the PORT at runtime
+CMD ["sh", "-c", "java -DMB_JETTY_PORT=$PORT -jar /app/metabase.jar"]
