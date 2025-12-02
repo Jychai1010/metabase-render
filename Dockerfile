@@ -1,14 +1,8 @@
-# Use Java 17 (Metabase requirement)
-FROM openjdk:17-slim
+FROM metabase/metabase:v0.50.15
 
-# Set working directory
-WORKDIR /app
+ENV MB_JETTY_PORT=3000
+ENV JAVA_TIMEZONE=Asia/Kuala_Lumpur
 
-# Download Metabase
-ADD https://downloads.metabase.com/v0.50.15/metabase.jar /app/metabase.jar
-
-# Expose port
 EXPOSE 3000
 
-# Start Metabase (port comes from MB_JETTY_PORT)
 CMD ["java", "-jar", "/app/metabase.jar"]
